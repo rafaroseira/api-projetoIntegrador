@@ -1,6 +1,6 @@
 package com.example.projeto.api.model;
 
-import java.util.List;
+import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +25,9 @@ public class PetShop {
     private String email;
 
     @Column
+    private String senha;
+
+    @Column
     private String cnpj;
 
     @Column
@@ -33,26 +36,20 @@ public class PetShop {
     @Column
     private String celular;
 
-    @Column
-    private float precoTosa;
-
-    @Column
-    private float precoBanho;
-
     @OneToOne
     @JoinColumn(name = "endereco", referencedColumnName = "id", unique = true)
     private Endereco endereco;
 
-    @OneToOne(mappedBy = "petShop", cascade = CascadeType.ALL) //torna bidirecional
-    private UserPetShop userPetShop;
+    @OneToMany(mappedBy = "petShop", cascade = CascadeType.ALL)
+    private Set<Profissional> profissionais;
 
     @OneToMany(mappedBy = "petShop", cascade = CascadeType.ALL)
-    private List<Profissional> profissionais;
+    private Set<HorarioFuncionamento> horariosFuncionamento;
 
     @OneToMany(mappedBy = "petShop", cascade = CascadeType.ALL)
-    private List<HorarioFuncionamento> horariosFuncionamento;
+    private Set<Agendamento> agendamentos;
 
     @OneToMany(mappedBy = "petShop", cascade = CascadeType.ALL)
-    private List<Agendamento> agendamentos;
+    private Set<Servico> servicos;
     
 }
