@@ -31,6 +31,16 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos;
 
+    public Cliente(String nome, String email, String senha, String celular) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.celular = celular;
+    }
+
+    public Cliente() {
+    }
+
     public int getId() {
         return id;
     }
