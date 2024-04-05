@@ -19,7 +19,7 @@ public class Profissional {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(nullable = false, length = 45)
     private String nome;
 
     @ManyToOne

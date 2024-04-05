@@ -16,16 +16,16 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(nullable = false, length = 45)
     private String nome;
 
-    @Column
+    @Column(nullable = false, unique = true, length = 45)
     private String email;
 
-    @Column
+    @Column(nullable = false, length = 45)
     private String senha;
 
-    @Column
+    @Column(nullable = false, columnDefinition = "CHAR(11)")
     private String celular;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)

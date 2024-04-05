@@ -16,23 +16,23 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(nullable = false, length = 45)
     private String cidade;
 
     @ManyToOne
-    @JoinColumn(name = "estado", referencedColumnName = "estado", nullable = false)
+    @JoinColumn(name = "estado", referencedColumnName = "estado")
     private Estado estado;
 
-    @Column
+    @Column(nullable = false, length = 45)
     private String rua;
 
-    @Column
+    @Column(nullable = false, length = 45)
     private String bairro;
 
-    @Column
+    @Column(nullable = false)
     private short numero;
 
-    @Column
+    @Column(nullable = false, columnDefinition = "CHAR(8)")
     private String cep;
 
     @OneToOne(mappedBy = "endereco")

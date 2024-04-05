@@ -16,10 +16,10 @@ public class HorarioFuncionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private LocalTime inicio;
 
-    @Column
+    @Column(nullable = false)
     private LocalTime termino;
 
     @ManyToOne

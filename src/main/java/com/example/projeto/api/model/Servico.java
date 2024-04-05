@@ -17,10 +17,10 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(nullable = false, length = 90)
     private String descricao;
 
-    @Column
+    @Column(nullable = false)
     private float preco;
 
     @ManyToMany(mappedBy = "servicos")
