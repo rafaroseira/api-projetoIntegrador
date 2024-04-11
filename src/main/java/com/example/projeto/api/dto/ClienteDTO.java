@@ -3,7 +3,7 @@ package com.example.projeto.api.dto;
 import com.example.projeto.api.model.Cliente;
 
 public class ClienteDTO {
-    private int id;
+    private int id; //não precisa inserir na tela de cadastro
     private String nome;
     private String email;
     private String celular;

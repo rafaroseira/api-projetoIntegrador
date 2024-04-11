@@ -3,10 +3,17 @@ package com.example.projeto.api.dto;
 import com.example.projeto.api.model.Cliente;
 
 public class UpdateClienteDTO {
-    
+
+    private int id;
     private String nome;
     private String celular;
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getNome() {
         return nome;
     }
@@ -23,13 +30,16 @@ public class UpdateClienteDTO {
     public UpdateClienteDTO() {
     }
 
-    public UpdateClienteDTO(String nome, String celular) {
+    public UpdateClienteDTO(int id, String nome, String celular) {
+        this.id = id;
         this.nome = nome;
         this.celular = celular;
     }
 
     public UpdateClienteDTO(Cliente cliente){
+        id = cliente.getId();
         nome = cliente.getNome();
         celular = cliente.getCelular();
     }
+  
 }

@@ -23,8 +23,8 @@ public class ClienteService {
     }
 
     @Transactional
-    public ClienteDTO atualizar(UpdateClienteDTO updateDTO, String emailCliente){
-        Cliente cliente = clienteRepository.findByEmail(emailCliente);
+    public ClienteDTO atualizar(UpdateClienteDTO updateDTO){
+        Cliente cliente = clienteRepository.findById(updateDTO.getId());
         cliente.setNome(updateDTO.getNome());
         cliente.setCelular(updateDTO.getCelular());
         cliente = clienteRepository.save(cliente);
@@ -32,15 +32,12 @@ public class ClienteService {
         return clienteDTO;
     }
 
-    @Transactional
-    public void excluir(String emailCliente){
-        Cliente cliente = clienteRepository.findByEmail(emailCliente);
-        clienteRepository.deleteById(cliente.getId());
+    public void excluir(int id){
+        clienteRepository.deleteById(id);
     }
 
-    public ClienteDTO recuperar(String emailCliente){
-        Cliente cliente = clienteRepository.findByEmail(emailCliente);
-        ClienteDTO clienteDTO = new ClienteDTO(cliente);
-        return clienteDTO;
+    public ClienteDTO recuperar(int id){
+        Cliente cliente = clienteRepository.findById(id);
+        return new ClienteDTO(cliente);
     }
 }

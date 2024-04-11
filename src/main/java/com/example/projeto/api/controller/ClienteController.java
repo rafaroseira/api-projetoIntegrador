@@ -4,19 +4,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.projeto.api.dto.ClienteDTO;
 import com.example.projeto.api.dto.CreateClienteDTO;
 import com.example.projeto.api.dto.UpdateClienteDTO;
-import com.example.projeto.api.security.ClienteUserDetails;
 import com.example.projeto.api.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class ClienteController {
@@ -25,27 +21,24 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/cliente/cadastro")
-    public ResponseEntity<String> cadastrarCliente(@RequestBody CreateClienteDTO dto) {
-        clienteService.cadastrar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente cadastrado com sucesso!");
+    public ClienteDTO cadastrarCliente(@RequestBody CreateClienteDTO dto) {
+        return clienteService.cadastrar(dto);
     }
 
     @PutMapping("/cliente/atualizar")
-    public ResponseEntity<?> atualizarCliente(@RequestBody UpdateClienteDTO dto,
-     @AuthenticationPrincipal ClienteUserDetails clienteAutenticado ){
-        clienteService.atualizar(dto,clienteAutenticado.getUsername());
-        return ResponseEntity.status(HttpStatus.OK).body("Seus dados foram atualizados!");
+    public ClienteDTO atualizarCliente(@RequestBody UpdateClienteDTO dto){
+        return clienteService.atualizar(dto);
     }
 
-    @DeleteMapping("/cliente/excluir")
-    public ResponseEntity<?> excluirCliente(@AuthenticationPrincipal ClienteUserDetails clienteAutenticado){
-        clienteService.excluir(clienteAutenticado.getUsername());
+    @DeleteMapping("/cliente/excluir/{id}")
+    public ResponseEntity<?> excluirCliente(@PathVariable int id){
+        clienteService.excluir(id);
         return ResponseEntity.ok().body("Conta excluída!");
     }
 
-    @GetMapping("/cliente/recuperar")
-    public ClienteDTO recuperarCliente(@AuthenticationPrincipal ClienteUserDetails clienteAutenticado) {
-        return clienteService.recuperar(clienteAutenticado.getUsername());
+    @GetMapping("/cliente/recuperar/{id}")
+    public ClienteDTO recuperarCliente(@PathVariable int id) {
+        return clienteService.recuperar(id);
     }
     
 }
