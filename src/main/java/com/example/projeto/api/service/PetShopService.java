@@ -56,19 +56,18 @@ public class PetShopService {
         return petShopDTO;
     }
 
-    /*@Transactional
+    @Transactional
     public EnderecoDTO atualizarEndereco(UpdateEnderecoPetShopDTO updateDTO){
-        PetShop petShop = petShopRepository.findById(updateDTO.getIdPetShop());
-        int idEndereco = petShopRepository.getIdEndereco(petShop.getId());
-        Endereco endereco = enderecoRepository.updateEndereco(updateDTO.getCidade(), updateDTO.getEstado(),
-         updateDTO.getRua(), updateDTO.getBairro(), updateDTO.getNumero(), updateDTO.getCep(), idEndereco);
+        PetShop petShop = petShopRepository.findById(updateDTO.getId());
+        Endereco endereco = petShop.getEndereco();
+        Estado estado = new Estado(updateDTO.getEstado());
+        endereco.setCidade(updateDTO.getCidade());
+        endereco.setEstado(estado);
+        endereco.setBairro(updateDTO.getBairro());
+        endereco.setRua(updateDTO.getRua());
+        endereco.setNumero(updateDTO.getNumero());
+        endereco.setCep(updateDTO.getCep());
+        endereco = enderecoRepository.save(endereco);
         return new EnderecoDTO(endereco);
-
-        //versão anterior
-        /*Endereco endereco = new Endereco(updateDTO.getCidade(), estado, updateDTO.getRua(),
-         updateDTO.getBairro(), updateDTO.getNumero(), updateDTO.getCep());
-        petShop.setEndereco(endereco);
-        petShop = petShopRepository.save(petShop);
-        return updateDTO;
-    }*/
+    }
 }
