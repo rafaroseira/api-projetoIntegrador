@@ -2,13 +2,13 @@ package com.example.projeto.api.dto;
 
 public class UpdateEnderecoPetShopDTO extends EnderecoDTO {
 
-    private int id;
+    private int idPetShop;
 
-    public int getId() {
-        return id;
+    public int getIdPetShop() {
+        return idPetShop;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setIdPetShop(int idPetShop) {
+        this.idPetShop = idPetShop;
     }
 
     public UpdateEnderecoPetShopDTO(){

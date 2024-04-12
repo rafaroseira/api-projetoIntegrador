@@ -58,7 +58,7 @@ public class PetShopService {
 
     @Transactional
     public EnderecoDTO atualizarEndereco(UpdateEnderecoPetShopDTO updateDTO){
-        PetShop petShop = petShopRepository.findById(updateDTO.getId());
+        PetShop petShop = petShopRepository.findById(updateDTO.getIdPetShop());
         Endereco endereco = petShop.getEndereco();
         Estado estado = new Estado(updateDTO.getEstado());
         endereco.setCidade(updateDTO.getCidade());
