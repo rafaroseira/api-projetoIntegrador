@@ -44,7 +44,7 @@ public class PetShopController {
         return petShopService.atualizarDados(dto);
     }
 
-    @PutMapping("petshop/atualizar-endereco")
+    @PutMapping("/petshop/atualizar-endereco")
     public EnderecoDTO atualizarEnderecoPetShop(@RequestBody UpdateEnderecoPetShopDTO dto) {
         return petShopService.atualizarEndereco(dto);
     }
