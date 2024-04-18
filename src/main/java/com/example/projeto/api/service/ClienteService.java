@@ -8,6 +8,8 @@ import com.example.projeto.api.dto.CreateClienteDTO;
 import com.example.projeto.api.dto.UpdateClienteDTO;
 import com.example.projeto.api.model.Cliente;
 import com.example.projeto.api.repository.ClienteRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
@@ -40,4 +42,12 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(id);
         return new ClienteDTO(cliente);
     }
+
+    public List<ClienteDTO> recuperarTodos() {
+        List<Cliente> clientes = (List<Cliente>) clienteRepository.findAll();
+        return clientes.stream()
+                       .map(ClienteDTO::new)
+                       .collect(Collectors.toList());
+    }
+
 }
