@@ -2,6 +2,8 @@ package com.example.projeto.api.model;
 
 import java.util.List;
 
+import com.example.projeto.api.dto.CreateProfissionalDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,4 +30,28 @@ public class Profissional {
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Profissional() {
+    }
+
+    public Profissional(CreateProfissionalDTO dto, PetShop petshop){
+        nome = dto.getNome();
+        this.petShop = petshop;
+    }
 }

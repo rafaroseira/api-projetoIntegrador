@@ -1,0 +1,8 @@
+package com.example.projeto.api.repository;
+
+import org.springframework.data.repository.CrudRepository;
+import com.example.projeto.api.model.Servico;
+
+public interface ServicoRepository extends CrudRepository<Servico,Integer>{
+    public Servico findById(int id);
+}

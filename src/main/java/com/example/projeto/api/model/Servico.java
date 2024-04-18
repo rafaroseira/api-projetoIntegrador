@@ -1,6 +1,9 @@
 package com.example.projeto.api.model;
 
 import java.util.Set;
+
+import com.example.projeto.api.dto.CreateServicoDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,4 +32,37 @@ public class Servico {
     @ManyToOne
     @JoinColumn(name = "pet_shop", referencedColumnName = "id")
     private PetShop petShop;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public float getPreco() {
+        return preco;
+    }
+
+    public void setPreco(float preco) {
+        this.preco = preco;
+    }
+
+    public Servico() {
+    }
+
+    public Servico(CreateServicoDTO dto, PetShop petshop){
+        descricao = dto.getDescricao();
+        preco = dto.getPreco();
+        this.petShop = petshop;
+    }
 }
