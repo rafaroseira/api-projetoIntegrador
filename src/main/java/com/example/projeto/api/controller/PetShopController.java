@@ -1,5 +1,7 @@
 package com.example.projeto.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +48,11 @@ public class PetShopController {
     @PutMapping("/petshop/atualizar-endereco")
     public EnderecoDTO atualizarEnderecoPetShop(@RequestBody UpdateEnderecoPetShopDTO dto) {
         return petShopService.atualizarEndereco(dto);
+    }
+
+    @GetMapping("/petshop/recuperar/todos")
+    public List<PetShopDTO> listarTodos() {
+        return petShopService.encontrarTodos();
     }
 
 }

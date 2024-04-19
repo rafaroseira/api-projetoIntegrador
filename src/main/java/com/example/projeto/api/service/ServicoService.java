@@ -1,5 +1,8 @@
 package com.example.projeto.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.projeto.api.dto.CreateServicoDTO;
@@ -41,5 +44,15 @@ public class ServicoService {
         servico.setPreco(updateDTO.getPreco());
         servico = servicoRepository.save(servico);
         return new ServicoDTO(servico);
+    }
+
+    public List<ServicoDTO> encontrarTodos(){
+        List<Servico> servicoList = servicoRepository.findAll();
+        List<ServicoDTO> servicoDTOlist = new ArrayList<ServicoDTO>();
+        for(Servico servico : servicoList){
+            ServicoDTO dto = new ServicoDTO(servico);
+            servicoDTOlist.add(dto);
+        }
+        return servicoDTOlist;
     }
 }

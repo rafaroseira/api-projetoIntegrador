@@ -1,5 +1,6 @@
 package com.example.projeto.api.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,4 +41,10 @@ public class ServicoController {
     public ServicoDTO atualizarServico(@RequestBody UpdateServicoDTO dto) {
         return servicoService.atualizar(dto);
     }
+
+    @GetMapping("/servico/recuperar/todos")
+    public List<ServicoDTO> listarTodos() {
+        return servicoService.encontrarTodos();
+    }
+    
 }

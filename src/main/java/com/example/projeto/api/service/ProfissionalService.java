@@ -1,5 +1,7 @@
 package com.example.projeto.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.projeto.api.dto.CreateProfissionalDTO;
@@ -40,5 +42,15 @@ public class ProfissionalService {
         profissional.setNome(updateDTO.getNome());
         profissional = profissionalRepository.save(profissional);
         return new ProfissionalDTO(profissional);
+    }
+
+    public List<ProfissionalDTO> encontrarTodos(){
+        List<Profissional> profissionalList = profissionalRepository.findAll();
+        List<ProfissionalDTO> profissionalDTOlist = new ArrayList<ProfissionalDTO>();
+        for(Profissional profissional : profissionalList){
+            ProfissionalDTO dto = new ProfissionalDTO(profissional);
+            profissionalDTOlist.add(dto);
+        }
+        return profissionalDTOlist;
     }
 }

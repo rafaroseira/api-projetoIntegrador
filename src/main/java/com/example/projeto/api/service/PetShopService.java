@@ -1,5 +1,7 @@
 package com.example.projeto.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,5 +71,15 @@ public class PetShopService {
         endereco.setCep(updateDTO.getCep());
         endereco = enderecoRepository.save(endereco);
         return new EnderecoDTO(endereco);
+    }
+
+    public List<PetShopDTO> encontrarTodos(){
+        List<PetShop> petShopList = petShopRepository.findAll();
+        List<PetShopDTO> petShopDTOlist = new ArrayList<PetShopDTO>();
+        for(PetShop petShop : petShopList){
+            PetShopDTO dto = new PetShopDTO(petShop);
+            petShopDTOlist.add(dto);
+        }
+        return petShopDTOlist;
     }
 }
