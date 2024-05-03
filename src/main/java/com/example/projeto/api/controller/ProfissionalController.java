@@ -3,6 +3,7 @@ package com.example.projeto.api.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.example.projeto.api.dto.UpdateProfissionalDTO;
 import com.example.projeto.api.service.ProfissionalService;
 
 @RestController
+@CrossOrigin(origins = "*") // Libera a api para qualquer um acessar independente da porta do Front-End
 public class ProfissionalController {
 
     @Autowired

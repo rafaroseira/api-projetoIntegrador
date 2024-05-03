@@ -13,12 +13,14 @@ import com.example.projeto.api.dto.UpdatePetShopDTO;
 import com.example.projeto.api.service.PetShopService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
+@CrossOrigin(origins = "*") // Libera a api para qualquer um acessar independente da porta do Front-End
 public class PetShopController {
 
     @Autowired
