@@ -1,9 +1,6 @@
 package com.example.projeto.api.model;
 
 import java.util.Set;
-
-import com.example.projeto.api.dto.CreateServicoDTO;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +27,7 @@ public class Servico {
     private Set<Agendamento> agendamentos;
 
     @ManyToOne
-    @JoinColumn(name = "pet_shop", referencedColumnName = "id")
+    @JoinColumn(name = "pet_shop", referencedColumnName = "id", nullable = false)
     private PetShop petShop;
 
     public int getId() {
@@ -60,9 +57,4 @@ public class Servico {
     public Servico() {
     }
 
-    public Servico(CreateServicoDTO dto, PetShop petshop){
-        descricao = dto.getDescricao();
-        preco = dto.getPreco();
-        this.petShop = petshop;
-    }
 }

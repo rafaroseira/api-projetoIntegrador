@@ -13,24 +13,24 @@ public class Estado {
 
     @Id
     @Enumerated(value = EnumType.STRING)
-    private EnumSiglaEstado estado;
+    private EnumSiglaEstado sigla;
 
     @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
     private List<Endereco> enderecos;
 
-    public EnumSiglaEstado getEstado() {
-        return estado;
+    public EnumSiglaEstado getSigla() {
+        return sigla;
     }
 
-    public void setEstado(EnumSiglaEstado estado) {
-        this.estado = estado;
+    public void setSigla(EnumSiglaEstado sigla) {
+        this.sigla = sigla;
     }
 
     public Estado() {
     }
 
-    public Estado(EnumSiglaEstado estado) {
-        this.estado = estado;
+    public Estado(EnumSiglaEstado sigla) {
+        this.sigla = sigla;
     }
 
 }

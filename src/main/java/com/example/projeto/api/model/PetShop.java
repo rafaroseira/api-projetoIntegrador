@@ -21,12 +21,6 @@ public class PetShop {
     @Column(nullable = false, length = 45)
     private String nome;
 
-    @Column(nullable = false, length = 45, unique = true)
-    private String email;
-
-    @Column(nullable = false, length = 45)
-    private String senha;
-
     @Column(columnDefinition = "CHAR(10)")
     private String telefone;
 
@@ -34,7 +28,11 @@ public class PetShop {
     private String celular;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "endereco", referencedColumnName = "id", unique = true)
+    @JoinColumn(name = "email", referencedColumnName = "email", unique = true, nullable = false)
+    private Usuario usuario;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco", referencedColumnName = "id", unique = true, nullable = false)
     private Endereco endereco;
 
     @OneToMany(mappedBy = "petShop", cascade = CascadeType.ALL)
@@ -65,22 +63,6 @@ public class PetShop {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -105,16 +87,23 @@ public class PetShop {
         this.endereco = endereco;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public PetShop() {
     }
 
-    public PetShop(String nome, String email, String senha, String telefone, String celular, Endereco endereco) {
+    public PetShop(String nome, String telefone, String celular, Endereco endereco, Usuario usuario) {
         this.nome = nome;
-        this.email = email;
-        this.senha = senha;
         this.telefone = telefone;
         this.celular = celular;
         this.endereco = endereco;
+        this.usuario = usuario;
     }
     
 }

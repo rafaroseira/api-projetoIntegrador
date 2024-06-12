@@ -23,25 +23,25 @@ public class Agendamento {
     private LocalDate data;
     
     @ManyToOne
-    @JoinColumn(name = "cliente", referencedColumnName = "id")
+    @JoinColumn(name = "cliente", referencedColumnName = "id", nullable = false)
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "pet_shop", referencedColumnName = "id")
+    @JoinColumn(name = "pet_shop", referencedColumnName = "id", nullable = false)
     private PetShop petShop;
 
     @ManyToOne
-    @JoinColumn(name = "profissional", referencedColumnName = "id")
+    @JoinColumn(name = "profissional", referencedColumnName = "id", nullable = false)
     private Profissional profissional;
 
     @ManyToOne
-    @JoinColumn(name = "horario", referencedColumnName = "horario")
+    @JoinColumn(name = "horario", referencedColumnName = "horario", nullable = false)
     private Horario horario;
 
     @ManyToMany
     @JoinTable(name = "servicos_agendamento",
-        joinColumns = @JoinColumn(name = "agendamento"),
-        inverseJoinColumns = @JoinColumn(name = "servico")
+        joinColumns = @JoinColumn(name = "agendamento", nullable = false),
+        inverseJoinColumns = @JoinColumn(name = "servico", nullable = false)
     )
     private Set<Servico> servicos;
 

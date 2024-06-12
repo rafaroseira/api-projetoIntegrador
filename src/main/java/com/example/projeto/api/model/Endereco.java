@@ -20,7 +20,7 @@ public class Endereco {
     private String cidade;
 
     @ManyToOne
-    @JoinColumn(name = "estado", referencedColumnName = "estado")
+    @JoinColumn(name = "estado", referencedColumnName = "sigla", nullable = false)
     private Estado estado;
 
     @Column(nullable = false, length = 45)
@@ -32,13 +32,8 @@ public class Endereco {
     @Column(nullable = false)
     private short numero;
 
-    @Column(nullable = false, columnDefinition = "CHAR(8)")
-    private String cep;
-
     @OneToOne(mappedBy = "endereco")
     private PetShop petShop; //torna bidirecional
-
-    
 
     public int getId() {
         return id;
@@ -88,24 +83,15 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
     public Endereco() {
     }
 
-    public Endereco(String cidade, Estado estado, String rua, String bairro, short numero, String cep) {
+    public Endereco(String cidade, Estado estado, String rua, String bairro, short numero) {
         this.cidade = cidade;
         this.estado = estado;
         this.rua = rua;
         this.bairro = bairro;
         this.numero = numero;
-        this.cep = cep;
     }
 
 }

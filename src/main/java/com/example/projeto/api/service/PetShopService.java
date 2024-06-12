@@ -3,18 +3,20 @@ package com.example.projeto.api.service;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.projeto.api.dto.CreatePetShopDTO;
-import com.example.projeto.api.dto.EnderecoDTO;
 import com.example.projeto.api.dto.PetShopDTO;
-import com.example.projeto.api.dto.UpdateEnderecoPetShopDTO;
-import com.example.projeto.api.dto.UpdatePetShopDTO;
 import com.example.projeto.api.model.Endereco;
+import com.example.projeto.api.model.EnumRole;
 import com.example.projeto.api.model.Estado;
 import com.example.projeto.api.model.PetShop;
+import com.example.projeto.api.model.Role;
+import com.example.projeto.api.model.Usuario;
 import com.example.projeto.api.repository.EnderecoRepository;
 import com.example.projeto.api.repository.PetShopRepository;
+import com.example.projeto.api.repository.UsuarioRepository;
 
 @Service
 public class PetShopService {
@@ -23,63 +25,45 @@ public class PetShopService {
     private PetShopRepository petShopRepository;
 
     @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private EnderecoRepository enderecoRepository;
 
     @Transactional
-    public PetShopDTO cadastrar(CreatePetShopDTO createDTO){
-        Estado estado = new Estado(createDTO.getEstado());
-        Endereco endereco = new Endereco(createDTO.getCidade(),estado,createDTO.getRua(),
-        createDTO.getBairro(),createDTO.getNumero(),createDTO.getCep());
-        endereco = enderecoRepository.save(endereco);
-        PetShop petShop = new PetShop(createDTO.getNome(), createDTO.getEmail(), createDTO.getSenha(), 
-        createDTO.getTelefone(), createDTO.getCelular(), endereco);
-        petShop = petShopRepository.save(petShop);
-        PetShopDTO petShopDTO = new PetShopDTO(petShop);
-        return petShopDTO;
+    public ResponseEntity<?> cadastrar(CreatePetShopDTO dto){
+        Usuario usuario = new Usuario(dto.getEmail(),dto.getSenha());
+        Role role = new Role(EnumRole.PETSHOP);
+        usuario.getRoles().add(role);
+        usuario = usuarioRepository.save(usuario);
+
+        Estado estado = new Estado(dto.getEstado());
+        Endereco endereco = new Endereco(dto.getCidade(),estado,dto.getRua(),
+        dto.getBairro(),dto.getNumero());
+        enderecoRepository.save(endereco);
+
+        PetShop petShop = new PetShop(dto.getNome(),dto.getTelefone(),dto.getCelular(),
+        endereco,usuario);
+        petShopRepository.save(petShop);
+
+        return ResponseEntity.ok().body("Pet Shop cadastrado!");
     }
 
-    public PetShopDTO recuperar(int id){
-        PetShop petShop = petShopRepository.findById(id);
-        return new PetShopDTO(petShop);
-    }
+    public List<PetShopDTO> pesquisar(String cidade){
+        List<PetShop> petShops = petShopRepository.pesquisaPorCidade(cidade);
+        List<PetShopDTO> dtoList = new ArrayList<PetShopDTO>();
 
-    public void excluir(int id){
-        petShopRepository.deleteById(id);
-    }
-
-    @Transactional
-    public PetShopDTO atualizarDados(UpdatePetShopDTO updateDTO){
-        PetShop petShop = petShopRepository.findById(updateDTO.getId());
-        petShop.setNome(updateDTO.getNome());
-        petShop.setCelular(updateDTO.getCelular());
-        petShop.setTelefone(updateDTO.getTelefone());
-        petShop = petShopRepository.save(petShop);
-        PetShopDTO petShopDTO = new PetShopDTO(petShop);
-        return petShopDTO;
-    }
-
-    @Transactional
-    public EnderecoDTO atualizarEndereco(UpdateEnderecoPetShopDTO updateDTO){
-        PetShop petShop = petShopRepository.findById(updateDTO.getIdPetShop());
-        Endereco endereco = petShop.getEndereco();
-        Estado estado = new Estado(updateDTO.getEstado());
-        endereco.setCidade(updateDTO.getCidade());
-        endereco.setEstado(estado);
-        endereco.setBairro(updateDTO.getBairro());
-        endereco.setRua(updateDTO.getRua());
-        endereco.setNumero(updateDTO.getNumero());
-        endereco.setCep(updateDTO.getCep());
-        endereco = enderecoRepository.save(endereco);
-        return new EnderecoDTO(endereco);
-    }
-
-    public List<PetShopDTO> encontrarTodos(){
-        List<PetShop> petShopList = petShopRepository.findAll();
-        List<PetShopDTO> petShopDTOlist = new ArrayList<PetShopDTO>();
-        for(PetShop petShop : petShopList){
-            PetShopDTO dto = new PetShopDTO(petShop);
-            petShopDTOlist.add(dto);
+        for(PetShop petShop : petShops){
+            PetShopDTO dto = new PetShopDTO(petShop.getId(),petShop.getNome(), petShop.getEndereco());
+            dtoList.add(dto);
         }
-        return petShopDTOlist;
+
+        return dtoList;
     }
+
+    public PetShopDTO recuperar(String email){
+        PetShop petShop = petShopRepository.findByEmail(email);
+        return new PetShopDTO(petShop.getId(),petShop.getNome(),petShop.getEndereco());
+    }
+
 }

@@ -1,9 +1,6 @@
 package com.example.projeto.api.model;
 
 import java.util.List;
-
-import com.example.projeto.api.dto.CreateProfissionalDTO;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +22,7 @@ public class Profissional {
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "pet_shop", referencedColumnName = "id")
+    @JoinColumn(name = "pet_shop", referencedColumnName = "id", nullable = false)
     private PetShop petShop;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL)
@@ -50,8 +47,4 @@ public class Profissional {
     public Profissional() {
     }
 
-    public Profissional(CreateProfissionalDTO dto, PetShop petshop){
-        nome = dto.getNome();
-        this.petShop = petshop;
-    }
 }

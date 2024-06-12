@@ -1,54 +1,56 @@
 package com.example.projeto.api.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.projeto.api.dto.ClienteDTO;
 import com.example.projeto.api.dto.CreateClienteDTO;
-import com.example.projeto.api.dto.UpdateClienteDTO;
+import com.example.projeto.api.model.Usuario;
 import com.example.projeto.api.service.ClienteService;
+import jakarta.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import java.util.List;
-// import para usar o CrossOrigin
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
-// @CrossOrigin(Origins = "http://localhost:3000")  //todas requisições locais da porta 3000 terão acesso a api
-@CrossOrigin(origins = "*") // Libera a api para qualquer um acessar independente da porta do Front-End
+@CrossOrigin(origins = "http://localhost:3000")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping("/cliente/cadastro")
-    public ClienteDTO cadastrarCliente(@RequestBody CreateClienteDTO dto) {
+    @GetMapping("/cliente/hello")
+    public String privateHello(@AuthenticationPrincipal Usuario usuario){
+        ClienteDTO dto = clienteService.recuperar(usuario.getUsername());
+        return "hello," + dto.getNome();
+    }
+
+    @PostMapping("/cadastro/cliente")
+    public ResponseEntity<?> cadastrarCliente(@Valid @RequestBody CreateClienteDTO dto){
         return clienteService.cadastrar(dto);
     }
 
-    @PutMapping("/cliente/atualizar")
-    public ClienteDTO atualizarCliente(@RequestBody UpdateClienteDTO dto){
-        return clienteService.atualizar(dto);
-    }
-
-    @DeleteMapping("/cliente/excluir/{id}")
-    public ResponseEntity<?> excluirCliente(@PathVariable int id){
-        clienteService.excluir(id);
-        return ResponseEntity.ok().body("Conta excluída!");
-    }
-
-    @GetMapping("/cliente/recuperar/{id}")
-    public ClienteDTO recuperarCliente(@PathVariable int id) {
-        return clienteService.recuperar(id);
-    }
-
-    @GetMapping("/cliente/recuperar")
-    public List<ClienteDTO> recuperarTodosClientes() {
-        return clienteService.recuperarTodos();
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+    MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
     
 }

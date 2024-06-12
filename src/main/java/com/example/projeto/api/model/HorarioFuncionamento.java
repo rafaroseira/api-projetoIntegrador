@@ -16,10 +16,10 @@ public class HorarioFuncionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column
     private LocalTime inicio;
 
-    @Column(nullable = false)
+    @Column
     private LocalTime termino;
 
     @ManyToOne
@@ -27,6 +27,6 @@ public class HorarioFuncionamento {
     private DiaSemana diaSemana;
 
     @ManyToOne
-    @JoinColumn(name = "pet_shop", referencedColumnName = "id")
+    @JoinColumn(name = "pet_shop", referencedColumnName = "id", nullable = false)
     private PetShop petShop;
 }

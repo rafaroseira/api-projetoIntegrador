@@ -1,27 +1,52 @@
 package com.example.projeto.api.dto;
 
 import com.example.projeto.api.model.EnumSiglaEstado;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class CreatePetShopDTO {
-    private int id; //não precisa incluir na tela de cadastro
+
+    @NotBlank(message = "O campo 'nome' é obrigatório")
+    @Size(min = 2, max = 45, message = "Nome deve ter entre 2 e 45 caracteres")
     private String nome;
+
+    @NotBlank(message = "O campo 'email' é obrigatório")
+    @Email(message = "Digite um email válido")
     private String email;
+
+    @NotBlank(message = "O campo 'senha' é obrigatório")
+    @Size(min = 1, max = 45, message = "Senha deve ter entre 1 e 45 caracteres")
     private String senha;
+
+    @NotNull
     private String telefone;
+
+    @NotBlank(message = "O campo 'celular' é obrigatório")
+    @Size(min = 11, max = 11, message = "Celular deve ter 11 números (DDD incluso)")
     private String celular;
+
+    @NotBlank(message = "O campo 'cidade' é obrigatório")
+    @Size(min = 2, max = 45, message = "Cidade deve ter entre 2 e 45 caracteres")
     private String cidade;
+
+    @NotNull(message = "O campo 'estado' é obrigatório")
     private EnumSiglaEstado estado; //PR, SP...
+
+    @NotBlank(message = "O campo 'rua' é obrigatório")
+    @Size(min = 2, max = 45, message = "Rua deve ter entre 2 e 45 caracteres")
     private String rua;
+
+    @NotBlank(message = "O campo 'bairro' é obrigatório")
+    @Size(min = 2, max = 45, message = "Bairro deve ter entre 2 e 45 caracteres")
     private String bairro;
+
+    @NotNull(message = "O campo 'número' é obrigatório")
+    @Max(value = Short.MAX_VALUE, message = "Número deve ter até 5 dígitos")
     private short numero;
-    private String cep;
     
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
     public String getNome() {
         return nome;
     }
@@ -82,19 +107,12 @@ public class CreatePetShopDTO {
     public void setNumero(short numero) {
         this.numero = numero;
     }
-    public String getCep() {
-        return cep;
-    }
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
     
     public CreatePetShopDTO() {
     }
 
-    public CreatePetShopDTO(int id, String nome, String email, String senha, String telefone, String celular,
-            String cidade, EnumSiglaEstado estado, String rua, String bairro, short numero, String cep) {
-        this.id = id;
+    public CreatePetShopDTO(String nome, String email, String senha, String telefone, String celular,
+            String cidade, EnumSiglaEstado estado, String rua, String bairro, short numero) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -105,7 +123,6 @@ public class CreatePetShopDTO {
         this.rua = rua;
         this.bairro = bairro;
         this.numero = numero;
-        this.cep = cep;
     }
 
 }

@@ -7,7 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cliente {
@@ -19,23 +21,20 @@ public class Cliente {
     @Column(nullable = false, length = 45)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 45)
-    private String email;
-
-    @Column(nullable = false, length = 45)
-    private String senha;
-
     @Column(nullable = false, columnDefinition = "CHAR(11)")
     private String celular;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "email", referencedColumnName = "email", unique = true, nullable = false)
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos;
 
-    public Cliente(String nome, String email, String senha, String celular) {
+    public Cliente(String nome, String celular, Usuario usuario) {
         this.nome = nome;
-        this.email = email;
-        this.senha = senha;
         this.celular = celular;
+        this.usuario = usuario;
     }
 
     public Cliente() {
@@ -57,14 +56,6 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getCelular() {
         return celular;
     }
@@ -73,13 +64,13 @@ public class Cliente {
         this.celular = celular;
     }
 
-    public String getSenha() {
-        return senha;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    } 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public List<Agendamento> getAgendamentos() {
         return agendamentos;
